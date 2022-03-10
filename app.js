@@ -102,7 +102,6 @@ function keyDownHandler(data) {
 	}
 
 	updateDisplay();
-	console.log([...buttons]);
 }
 
 function keyUpHandler(data) {
@@ -162,7 +161,6 @@ function evaluate() {
 	historyStr = operationArr.join('');
 	result = operation(operationArr);
 	operandStr = result.toString();
-	console.log(operandStr);
 }
 
 function operation(arr) {
