@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
 
 *,
 *::before,
@@ -14,7 +14,7 @@ html {
 body {
 	width: 100vw;
 	height: 100vh;
-	font-family: 'Fira Sans', sans-serif;
+	font-family: 'Fira Code', monospace;
 }
 
 button {
@@ -50,7 +50,7 @@ button {
 
 .content {
 	height: calc(100% - 128px);
-	width: 512px;
+	width: 384px;
 	margin: 16px auto;
 	display: flex;
 	flex-direction: column;
@@ -59,7 +59,7 @@ button {
 }
 
 .calculator {
-	width: 512px;
+	width: 100%;
 }
 
 .display {
@@ -87,7 +87,7 @@ button {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-size: 48px;
+	font-size: 36px;
 	margin: 0 16px;
 }
 
@@ -99,36 +99,52 @@ button {
 }
 
 .btn {
-	width: calc(512px / 4);
+	width: calc(384px / 4);
 	height: 96px;
-	background-color: #dddddd;
+	background-color: #cccccc;
+	color: black;
 	outline: 1px solid black;
 	outline-offset: -1px;
-	transition: background-color 0.2s ease;
+	transition: background-color 0.2s;
 }
 
 .btn:hover {
-	background-color: #ddddddaa;
+	background-color: #ccccccaa;
 }
 
-.operator {
-	background-color: #faa223;
+.btn[data-input='0'] {
+	width: calc(96px * 2);
 }
 
-.operator:hover {
-	background-color: #faa223aa;
+.function {
+	background-color: #888888;
 }
 
-.operand {
-	background-color: #aaaaaa;
+.function:hover {
+	background-color: #888888aa;
 }
 
-.operand:hover {
-	background-color: #aaaaaaaa;
+.operator,
+.evaluate {
+	background-color: #ff8800;
 }
 
-.zero {
-	width: calc(128px * 2);
+.operator:hover,
+.evaluate:hover {
+	background-color: #ff8800aa;
+}
+
+.operand.active {
+	background-color: #ccccccaa;
+}
+
+.operator.active,
+.evaluate.active {
+	background-color: #ff8800aa;
+}
+
+.function.active {
+	background-color: #888888aa;
 }
 
 .footer {
