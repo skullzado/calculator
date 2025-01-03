@@ -1,65 +1,62 @@
-const buttons = document.querySelectorAll('.btn');
-const history = document.querySelector('.history');
-const current = document.querySelector('.current');
+const buttons = document.querySelectorAll(".btn");
+const history = document.querySelector(".history");
+const current = document.querySelector(".current");
 
-let operandStr = '0';
-let historyStr = '';
-const ERROR_MESSAGE = "[SNARKILY]: CAN'T DIVIDE BY 0";
+let operandStr = "0";
+let historyStr = "";
+const ERROR_MESSAGE = "CAN'T DIVIDE BY 0";
 const operationArr = [];
 
 const keyCodeObj = {
-  Numpad0: '0',
-  Numpad1: '1',
-  Numpad2: '2',
-  Numpad3: '3',
-  Numpad4: '4',
-  Numpad5: '5',
-  Numpad6: '6',
-  Numpad7: '7',
-  Numpad8: '8',
-  Numpad9: '9',
-  NumpadDivide: '/',
-  NumpadMultiply: '*',
-  NumpadSubtract: '-',
-  NumpadAdd: '+',
-  NumpadEnter: '=',
-  NumpadDecimal: '.',
-  Minus: 'posneg',
-  Backspace: 'erase',
-  Delete: 'clear',
+  Numpad0: "0",
+  Numpad1: "1",
+  Numpad2: "2",
+  Numpad3: "3",
+  Numpad4: "4",
+  Numpad5: "5",
+  Numpad6: "6",
+  Numpad7: "7",
+  Numpad8: "8",
+  Numpad9: "9",
+  NumpadDivide: "/",
+  NumpadMultiply: "*",
+  NumpadSubtract: "-",
+  NumpadAdd: "+",
+  NumpadEnter: "=",
+  NumpadDecimal: ".",
+  Minus: "posneg",
+  Backspace: "erase",
+  Delete: "clear",
 };
 
 current.textContent = operandStr;
 
-window.addEventListener('keydown', (event) => keyDownHandler(event));
-window.addEventListener('keyup', (event) => keyUpHandler(event));
+window.addEventListener("keydown", (event) => keyDownHandler(event));
+window.addEventListener("keyup", (event) => keyUpHandler(event));
 
 [...buttons].forEach((button) =>
-  button.addEventListener('click', (event) => clickHandler(event.target))
+  button.addEventListener("click", (event) => clickHandler(event.target))
 );
 
 function clickHandler(data) {
-  let dataInput = data.dataset['input'];
+  let dataInput = data.dataset["input"];
   let dataType = data.classList[1];
 
-  if (
-    current.textContent === ERROR_MESSAGE ||
-    current.textContent.includes('=')
-  ) {
+  if (current.textContent === ERROR_MESSAGE) {
     reset();
   }
 
   switch (dataType) {
-    case 'operand':
+    case "operand":
       operandHandler(dataInput);
       break;
-    case 'operator':
+    case "operator":
       operatorHandler(dataInput);
       break;
-    case 'evaluate':
+    case "evaluate":
       evaluate();
       break;
-    case 'function':
+    case "function":
       handleFunctions(dataInput);
       break;
     default:
@@ -77,27 +74,27 @@ function keyDownHandler(data) {
   }
 
   const [button] = [...buttons].filter(
-    (button) => button.dataset['input'] === dataInput
+    (button) => button.dataset["input"] === dataInput
   );
   const dataType = button ? button.classList[1] : null;
 
-  button.classList.add('active');
+  button.classList.add("active");
 
   if (current.textContent === ERROR_MESSAGE) {
     reset();
   }
 
   switch (dataType) {
-    case 'operand':
+    case "operand":
       operandHandler(dataInput);
       break;
-    case 'operator':
+    case "operator":
       operatorHandler(dataInput);
       break;
-    case 'evaluate':
+    case "evaluate":
       evaluate();
       break;
-    case 'function':
+    case "function":
       handleFunctions(dataInput);
       break;
     default:
@@ -113,22 +110,22 @@ function keyUpHandler(data) {
   if (!dataInput) return;
 
   const [button] = [...buttons].filter(
-    (button) => button.dataset['input'] === dataInput
+    (button) => button.dataset["input"] === dataInput
   );
 
-  button.classList.remove('active');
+  button.classList.remove("active");
 }
 
 function operandHandler(input) {
-  if (operandStr === '0') {
-    if (input === '0') {
-      operandStr = '0';
-    } else if (input !== '0') {
+  if (operandStr === "0") {
+    if (input === "0") {
+      operandStr = "0";
+    } else if (input !== "0") {
       operandStr = input;
-    } else if (input === '.') {
-      operandStr = '0.';
+    } else if (input === ".") {
+      operandStr = "0.";
     }
-  } else if (input === '.') {
+  } else if (input === ".") {
     decimalHandler(input);
   } else {
     operandStr += input;
@@ -136,7 +133,7 @@ function operandHandler(input) {
 }
 
 function decimalHandler(input) {
-  if (operandStr.includes('.')) {
+  if (operandStr.includes(".")) {
     return;
   } else {
     operandStr += input;
@@ -150,7 +147,8 @@ function operatorHandler(input) {
   } else {
     operationArr.push(Number(operandStr), input);
   }
-  operandStr = '';
+  console.log(operationArr);
+  operandStr = "";
 }
 
 function evaluate() {
@@ -161,7 +159,7 @@ function evaluate() {
   }
 
   operationArr.push(Number(operandStr));
-  historyStr = operationArr.join('');
+  historyStr = operationArr.join("");
   result = operation(operationArr);
   operandStr = result.toString();
 }
@@ -181,16 +179,16 @@ function operate(num1, operator, num2) {
   let result = 0;
 
   switch (operator) {
-    case '+':
+    case "+":
       result = num1 + num2;
       break;
-    case '-':
+    case "-":
       result = num1 - num2;
       break;
-    case '*':
+    case "*":
       result = num1 * num2;
       break;
-    case '/':
+    case "/":
       result = num1 / num2;
       break;
     default:
@@ -201,23 +199,23 @@ function operate(num1, operator, num2) {
 }
 
 function reset() {
-  historyStr = '';
-  operandStr = '0';
+  historyStr = "";
+  operandStr = "0";
   operationArr.length = 0;
   history.textContent = historyStr;
   current.textContent = operandStr;
-  current.style.fontSize = '36px';
+  current.style.fontSize = "36px";
 }
 
 function handleFunctions(funcType) {
   switch (funcType) {
-    case 'clear':
+    case "clear":
       reset();
       break;
-    case 'posneg':
+    case "posneg":
       toggleNegative();
       break;
-    case 'erase':
+    case "erase":
       handleErase();
       break;
     default:
@@ -226,21 +224,21 @@ function handleFunctions(funcType) {
 }
 
 function toggleNegative() {
-  if (operandStr === '0' || !operandStr.length) {
+  if (operandStr === "0" || !operandStr.length || operandStr.includes("-")) {
     return;
   }
 
   if (operationArr.length === 1) {
-    operandStr = '-' + operationArr[0].toString();
-  } else if (!operandStr.includes('-')) {
-    operandStr = '-' + operandStr;
+    operandStr = "-" + operationArr[0].toString();
+  } else if (!operandStr.includes("-")) {
+    operandStr = "-" + operandStr;
   } else {
     operandStr = operandStr.substring(1);
   }
 }
 
 function handleErase() {
-  if (operandStr === '0' || operationArr.length === 1) {
+  if (operandStr === "0" || operationArr.length === 1) {
     return;
   } else {
     operandStr = operandStr.substring(0, operandStr.length - 1);
@@ -248,13 +246,13 @@ function handleErase() {
 }
 
 function updateDisplay() {
-  if (operandStr === 'Infinity') {
+  if (operandStr === "Infinity") {
     current.textContent = ERROR_MESSAGE;
-    current.style.fontSize = '20px';
+    current.style.fontSize = "20px";
   } else if (operationArr.length === 1) {
     current.textContent = `=${operandStr}`;
   } else {
-    current.textContent = operationArr.join('') + operandStr;
+    current.textContent = operationArr.join("") + operandStr;
   }
   history.textContent = historyStr;
 }
